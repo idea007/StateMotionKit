@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>State Anim Drive Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="panel panel-controls">
+      <h1>State Anim Drive</h1>
+      <p class="muted">导入编辑器导出的 animation-template zip，直接运行状态动画。</p>
+
+      <section class="card">
+        <h2>资源导入</h2>
+        <label class="file-picker">
+          <span>选择 Zip / JSON</span>
+          <input id="fileInput" type="file" accept=".zip,.json,application/zip,application/json">
+        </label>
+        <p class="hint">支持 state anim 描述 JSON，或 store 格式的 state anim zip。</p>
+      </section>
+
+      <section class="card">
+        <h2>播放控制</h2>
+        <div class="row">
+          <button id="playToggleBtn" disabled>Play</button>
+          <button id="stepBtn" disabled>Step +1f</button>
+          <button id="resetBtn" disabled>Reset</button>
+        </div>
+        <label class="field">
+          <span>Speed</span>
+          <input id="speedInput" type="range" min="0.1" max="3" step="0.1" value="1">
+          <output id="speedOutput">1.0x</output>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>Layer States</h2>
+        <div id="layerStatePanel" class="layer-state-panel">
+          <p class="muted">加载后按 layer 展示状态下拉。</p>
+        </div>
+        <div class="row">
+          <button id="interruptBtn" disabled>Interrupt</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>日志</h2>
+        <pre id="logBox" class="log-box">[ready] waiting for file...</pre>
+      </section>
+    </aside>
+
+    <main class="panel panel-stage">
+      <section class="card stage-card">
+        <h2>预览</h2>
+        <div class="stage-wrap">
+          <svg id="avatarStage" viewBox="0 0 128 128" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div id="stageStatus" class="stage-status">未加载</div>
+        <button id="debugEvaluateClipBtn" type="button">Debug Clip Frame 0</button>
+      </section>
+    </main>
+
+    <aside class="panel panel-runtime">
+      <section class="card">
+        <h2>运行时</h2>
+        <pre id="runtimeBox" class="runtime-box">{
+  "status": "idle"
+}</pre>
+      </section>
+
+      <section class="card">
+        <h2>参数</h2>
+        <div id="paramPanel" class="param-panel">
+          <p class="muted">加载后展示状态机参数控件。</p>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

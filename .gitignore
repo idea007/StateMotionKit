@@ -1,0 +1,13 @@
+.DS_Store
+**/.DS_Store
+
+# Android / Gradle
+.gradle/
+**/.gradle/
+build/
+**/build/
+local.properties
+*.apk
+
+# IDE
+.idea/
