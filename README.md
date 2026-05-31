@@ -1,34 +1,38 @@
 # StateMotionKit
 
 <p>
+  <a href="./README.zh-CN.md">简体中文</a>
+</p>
+
+<p>
   <a href="./LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
   <img alt="Runtime: Web and Android" src="https://img.shields.io/badge/runtime-Web%20%2B%20Android-0f766e.svg">
   <img alt="Status: Lab" src="https://img.shields.io/badge/status-lab-orange.svg">
 </p>
 
-StateMotionKit 是一组用于运行导出状态动画包的独立实验运行时。
+StateMotionKit is a set of standalone experimental runtimes for playing exported state animation packages.
 
-它关注一个核心问题：动画模板从编辑器导出后，是否能在普通 Web 页面或 Android 应用里继续驱动同一套状态机、过渡、控制层和矢量路径动画。
+It focuses on one practical question: after an animation template is exported from the editor, can the same state machine, transitions, control layers, and vector path animations continue to run in a normal Web page or Android app?
 
-## 运行效果
+## Demo
 
 | Web demo | Android demo |
 | --- | --- |
 | <img src="./docs/assets/web-demo.gif" alt="StateMotionKit Web demo" width="520"> | <img src="./docs/assets/android-demo.gif" alt="StateMotionKit Android demo" width="260"> |
 | [MP4](./docs/assets/web-demo.mp4) | [MP4](./docs/assets/android-demo.mp4) |
 
-## 特性
+## Features
 
-- 加载导出的 store zip 格式状态动画包。
-- 使用 enum 和 trigger 参数驱动状态机 layer。
-- 支持按 layer 播放 state、transition、exit time 和非循环状态完成逻辑。
-- 支持 control layer 投影到 motion layer，包括主题和 transform 控制。
-- 支持采样 `position`、`scale`、`rotation`、`opacity`、`fill`、`stroke`、`path` 关键帧。
-- 同一份导出包可在两个独立运行时里预览：
-  - Web demo 使用 SVG 渲染。
-  - Android demo 使用自定义 Canvas `View` 渲染。
+- Load exported state animation packages in store zip format.
+- Drive state machine layers with enum and trigger parameters.
+- Play per-layer states, transitions, exit time, and non-loop completion logic.
+- Project control layer output onto motion layers, including theme and transform controls.
+- Sample `position`, `scale`, `rotation`, `opacity`, `fill`, `stroke`, and `path` keyframes.
+- Preview the same exported package in two standalone runtimes:
+  - Web demo rendered with SVG.
+  - Android demo rendered with a custom Canvas `View`.
 
-## 快速开始
+## Quick Start
 
 ### Web
 
@@ -37,93 +41,96 @@ cd lab-state-anim-drive-js
 python3 -m http.server 5211
 ```
 
-打开 `http://localhost:5211/`，然后在页面里选择 `robot-state-anim.zip` 或其他导出的状态动画 zip。
+Open `http://localhost:5211/`, then choose `robot-state-anim.zip` or another exported state animation zip from the page.
 
 ### Android
 
-用 Android Studio 打开 `lab-state-anim-drive-android`，或者在命令行构建：
+Open `lab-state-anim-drive-android` in Android Studio, or build from the command line:
 
 ```bash
 cd lab-state-anim-drive-android
 ./gradlew assembleDebug
 ```
 
-Android demo 会读取内置资源：
+The Android demo reads the bundled asset:
 
 ```text
 app/src/main/assets/state_anim_robot.zip
 ```
 
-生成的 debug APK 位于：
+The generated debug APK is written to:
 
 ```text
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## 项目结构
+## Project Structure
 
 ```text
 .
-├── lab-state-anim-drive-js/       # 浏览器侧状态动画驱动
-│   ├── README.md                  # Web demo 使用说明
-│   ├── index.html                 # 页面入口
-│   ├── app.js                     # Runtime、包加载、SVG 渲染
-│   ├── pathMorphRuntime.js        # 生成的 path morph runtime
+├── README.md                     # English README shown by GitHub
+├── README.zh-CN.md               # Chinese README
+├── lab-state-anim-drive-js/      # Browser-side state animation driver
+│   ├── README.md                 # Web demo usage
+│   ├── index.html                # Page entry
+│   ├── app.js                    # Runtime, package loading, SVG rendering
+│   ├── pathMorphRuntime.js       # Generated path morph runtime
 │   ├── styles.css
 │   └── 技术文档.md
-├── lab-state-anim-drive-android/  # Android Canvas demo
+├── lab-state-anim-drive-android/ # Android Canvas demo
 │   ├── README.md
 │   └── app/src/main/
-├── robot-state-anim.zip           # 示例导出包
-├── LICENSE
-└── README.md
+├── docs/assets/                  # README demo media
+├── robot-state-anim.zip          # Sample exported package
+└── LICENSE
 ```
 
-## 输入包格式
+## Package Input
 
-实验运行时主要面向包含以下文件的导出状态动画包：
+The labs are designed for exported state animation packages that contain:
 
 - `index.json`
 - `state-anim.json`
-- 一个或多个 `.state.compiled.json` 文件
-- 可选 preview 或 SVG 资源
+- one or more `.state.compiled.json` files
+- optional preview or SVG resources
 
-Web demo 也可以加载兼容的 descriptor JSON。对于引用相对 compiled 资源的本地 JSON，更推荐使用 zip 包，因为浏览器不能自由读取磁盘上的相邻文件。
+The Web demo can also load compatible descriptor JSON files. For local descriptor files that reference relative compiled assets, zip packages are recommended because browsers cannot freely read adjacent files from disk.
 
-## Runtime 覆盖范围
+## Runtime Coverage
 
-当前实验运行时覆盖核心播放链路：
+The current labs cover the core playback path:
 
-- state 选择与 transition 选择
-- 帧推进和速度控制
-- trigger 消费
-- `exitTime` 和 `onComplete`
-- control layer 投影
-- path 插值和 path morph fallback
-- Android 侧 SVG path 解析
+- state and transition selection
+- frame advancement and speed control
+- trigger consumption
+- `exitTime` and `onComplete`
+- control layer projection
+- path interpolation and path morph fallback
+- SVG path parsing on Android
 
-这些实验页不是完整编辑器运行时。像素级效果、Pixi/WebGL 渲染细节、复杂 mask、滤镜和编辑器专用诊断能力可能与源编辑器存在差异。
+These labs are not full editor runtimes. Pixel-level effects, Pixi/WebGL rendering details, complex masks, filters, and editor-only diagnostics may differ from the source editor.
 
-## 设计目标
+## Design Goals
 
-- **可移植**：每个 lab 都可以拷贝到其他项目中运行，不直接 import 编辑器源码树。
-- **可观察**：runtime 状态应足够透明，便于排查 state transition 和 control layer 投影。
-- **保守降级**：暂不支持的编辑器能力应显式暴露或降级，而不是静默失败。
-- **可对比**：同一份导出包可以在 Web 和 Android 侧交叉验证。
+- **Portable**: each lab can be copied into another project without importing the editor source tree.
+- **Inspectable**: runtime state should be visible enough to debug state transitions and control layer projections.
+- **Conservative**: unsupported editor features should degrade visibly instead of failing silently.
+- **Comparable**: the same exported package can be checked across Web and Android.
 
-## 路线图
+## Roadmap
 
-- 增加基于 fixture 的 descriptor / zip 加载测试。
-- 增加常见 state transition 的视觉回归样例。
-- 将共享包解析规则整理成更小的 runtime core，并补充文档。
-- 增加覆盖 mask、嵌套 frame、复杂 path morph 的导出包。
+- Add fixture-based runtime tests for descriptor and zip loading.
+- Add visual regression samples for common state transitions.
+- Extract shared package parsing rules into a small documented runtime core.
+- Add more exported packages that cover masks, nested frames, and complex path morph cases.
 
-## 文档
+## Documentation
 
-- [Web demo 使用说明](./lab-state-anim-drive-js/README.md)
-- [Web runtime 技术文档](./lab-state-anim-drive-js/技术文档.md)
-- [Android demo 使用说明](./lab-state-anim-drive-android/README.md)
+- [Chinese README](./README.zh-CN.md)
+- [Web demo README](./lab-state-anim-drive-js/README.md)
+- [Web runtime technical notes](./lab-state-anim-drive-js/技术文档.md)
+- [Android demo README](./lab-state-anim-drive-android/README.md)
 
-## 许可证
+## License
 
-StateMotionKit 使用 [Apache License 2.0](./LICENSE) 发布。
+StateMotionKit is released under the [Apache License 2.0](./LICENSE).
